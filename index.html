@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ecuación de Wilson (1964) · Equilibrio de Fases VLE</title>
+  <meta name="description" content="Simulación interactiva del equilibrio vapor-líquido con la ecuación de Wilson (1964) para mezclas polares binarias. Diagramas P-xy, T-xy, coeficientes de actividad y energía de Gibbs en exceso." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Decoraciones CSS Cinnamoroll -->
+  <div class="cinna-deco cinna-tl" aria-hidden="true"></div>
+  <div class="cinna-deco cinna-br" aria-hidden="true"></div>
+  <div class="cloud cloud-1" aria-hidden="true"></div>
+  <div class="cloud cloud-2" aria-hidden="true"></div>
+  <div class="cloud cloud-3" aria-hidden="true"></div>
+  <div class="star star-1" aria-hidden="true">✦</div>
+  <div class="star star-2" aria-hidden="true">✦</div>
+  <div class="star star-3" aria-hidden="true">✧</div>
+  <div class="star star-4" aria-hidden="true">✦</div>
+  <div class="bubble b1" aria-hidden="true"></div>
+  <div class="bubble b2" aria-hidden="true"></div>
+  <div class="bubble b3" aria-hidden="true"></div>
+
+  <!-- ══ HEADER ══ -->
+  <header class="hero-header">
+    <div class="header-content">
+      <div class="cinna-img-wrap">
+        <img src="cinnamoroll.png" alt="Cinnamoroll decoración" class="cinna-img" />
+        <div class="molecule-deco" aria-hidden="true">
+          <div class="atom a1"></div><div class="bond b-h"></div>
+          <div class="atom a2"></div><div class="bond b-d"></div>
+          <div class="atom a3"></div>
+        </div>
+      </div>
+      <div class="header-text">
+        <p class="header-sub">Termodinámica Computacional · G.M. Wilson (1964)</p>
+        <h1 class="header-title">Ecuación de <span class="gradient-text">Wilson</span></h1>
+        <p class="header-desc">Equilibrio Vapor–Líquido para mezclas de compuestos polares binarios</p>
+        <div class="badges-row">
+          <span class="badge">🧪 Actividad γᵢ</span>
+          <span class="badge">📈 Diagrama T-xy</span>
+          <span class="badge">📊 Diagrama P-xy</span>
+          <span class="badge">⚗️ G<sup>E</sup>/RT</span>
+        </div>
+      </div>
+      <div class="cinna-img-wrap cinna-right">
+        <img src="cinnamoroll.png" alt="Cinnamoroll decoración" class="cinna-img flipped" />
+        <div class="molecule-deco flipped-mol" aria-hidden="true">
+          <div class="atom a3"></div><div class="bond b-d2"></div>
+          <div class="atom a1"></div><div class="bond b-h2"></div>
+          <div class="atom a2"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ EQUATIONS SECTION ══ -->
+  <section class="eq-section" aria-label="Ecuaciones del modelo">
+    <div class="glass-card eq-card">
+      <h2 class="section-title">📐 Modelo Matemático de Wilson (1964)</h2>
+      <div class="eq-grid">
+        <div class="eq-block eq-main">
+          <span class="eq-label tag-wilson">Coeficiente de Actividad</span>
+          <div class="eq-formula-big">
+            ln γᵢ = 1 − ln<span class="eq-paren">(</span>Σⱼ Λᵢⱼ xⱼ<span class="eq-paren">)</span> − Σⱼ <span class="eq-frac"><span class="num">Λⱼᵢ xⱼ</span><span class="den">Σₖ Λⱼₖ xₖ</span></span>
+          </div>
+        </div>
+        <div class="eq-block">
+          <span class="eq-label tag-ge">Energía de Gibbs en Exceso</span>
+          <div class="eq-formula">
+            G<sup>E</sup>/RT = −x₁ ln(x₁ + Λ₁₂x₂) − x₂ ln(x₂ + Λ₂₁x₁)
+          </div>
+        </div>
+        <div class="eq-block">
+          <span class="eq-label tag-vle">Ley de Raoult Modificada</span>
+          <div class="eq-formula">
+            yᵢ P = xᵢ γᵢ Pᵢˢᵃᵗ(T)
+          </div>
+        </div>
+        <div class="eq-block">
+          <span class="eq-label tag-ant">Ecuación de Antoine</span>
+          <div class="eq-formula">
+            log₁₀Pˢᵃᵗ = A − B / (T + C)
+          </div>
+        </div>
+      </div>
+      <p class="ref-text">📚 Wilson, G.M. (1964). <em>A new expression for the excess free energy of mixing.</em> J. Am. Chem. Soc., 86(2), 127–130. DOI: 10.1021/ja01056a002</p>
+    </div>
+  </section>
+
+  <!-- ══ MAIN LAYOUT ══ -->
+  <main class="main-layout" role="main">
+
+    <!-- LEFT: Controls -->
+    <aside class="controls-panel glass-card" aria-label="Panel de controles">
+      <h2 class="panel-title">🎛️ Configuración</h2>
+
+      <!-- System selector -->
+      <div class="control-group">
+        <p class="clabel">🧪 Sistema Binario</p>
+        <select id="system-select" class="select-styled" aria-label="Seleccionar sistema binario">
+          <optgroup label="Alcoholes + Agua">
+            <option value="etanol-agua">Etanol (1) + Agua (2)</option>
+            <option value="metanol-agua">Metanol (1) + Agua (2)</option>
+            <option value="1propanol-agua">1-Propanol (1) + Agua (2)</option>
+          </optgroup>
+          <optgroup label="Cetonas + Agua">
+            <option value="acetona-agua">Acetona (1) + Agua (2)</option>
+          </optgroup>
+          <optgroup label="Mezclas Alcohólicas">
+            <option value="etanol-acetona">Etanol (1) + Acetona (2)</option>
+            <option value="metanol-acetona">Metanol (1) + Acetona (2)</option>
+          </optgroup>
+          <optgroup label="Personalizado">
+            <option value="custom">✏️ Personalizado</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <!-- Component display -->
+      <div class="comp-display">
+        <div class="comp-box comp1-box">
+          <span class="comp-dot dot1"></span>
+          <span class="comp-name" id="comp1-name">Etanol</span>
+        </div>
+        <div class="plus-sign">+</div>
+        <div class="comp-box comp2-box">
+          <span class="comp-dot dot2"></span>
+          <span class="comp-name" id="comp2-name">Agua</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Wilson parameters -->
+      <div class="control-group" id="wilson-params">
+        <p class="clabel">⚗️ Parámetros de Wilson (Λᵢⱼ)</p>
+        <div class="slider-item">
+          <label for="lambda12" class="slider-label comp1-text">Λ₁₂</label>
+          <input type="range" id="lambda12" min="0.01" max="3" step="0.01" value="0.7241" class="slider s1" />
+          <span class="slider-val" id="lambda12-val">0.724</span>
+        </div>
+        <div class="slider-item">
+          <label for="lambda21" class="slider-label comp2-text">Λ₂₁</label>
+          <input type="range" id="lambda21" min="0.01" max="3" step="0.01" value="0.4350" class="slider s2" />
+          <span class="slider-val" id="lambda21-val">0.435</span>
+        </div>
+        <div class="params-note" id="params-note">
+          Fuente: DECHEMA VLE Data Series, Gmehling et al. (1977)
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Operating conditions -->
+      <div class="control-group">
+        <p class="clabel">🌡️ Condiciones de Operación</p>
+        <div class="toggle-row">
+          <button id="mode-pxy" class="mode-btn active" aria-pressed="true">P-xy (T fija)</button>
+          <button id="mode-txy" class="mode-btn" aria-pressed="false">T-xy (P fija)</button>
+        </div>
+
+        <div id="cond-T" class="slider-item">
+          <label for="temp-val-sl" class="slider-label">T (°C)</label>
+          <input type="range" id="temp-val-sl" min="20" max="120" step="1" value="70" class="slider" />
+          <span class="slider-val" id="temp-display">70 °C</span>
+        </div>
+
+        <div id="cond-P" class="slider-item" style="display:none">
+          <label for="press-val-sl" class="slider-label">P (kPa)</label>
+          <input type="range" id="press-val-sl" min="10" max="200" step="1" value="101.325" class="slider" />
+          <span class="slider-val" id="press-display">101.3 kPa</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Antoine parameters (collapsible) -->
+      <details class="details-section">
+        <summary class="details-summary">🔬 Parámetros de Antoine</summary>
+        <div class="antoine-grid">
+          <div class="ant-header"><span class="comp1-text">Comp. 1</span></div>
+          <div class="ant-header"><span class="comp2-text">Comp. 2</span></div>
+          <div class="ant-field">
+            <label>A₁</label><input type="number" id="ant-A1" class="ant-input comp1-inp" value="8.1122" step="0.001" />
+            <label>B₁</label><input type="number" id="ant-B1" class="ant-input comp1-inp" value="1592.864" step="0.1" />
+            <label>C₁</label><input type="number" id="ant-C1" class="ant-input comp1-inp" value="226.184" step="0.1" />
+          </div>
+          <div class="ant-field">
+            <label>A₂</label><input type="number" id="ant-A2" class="ant-input comp2-inp" value="8.07131" step="0.001" />
+            <label>B₂</label><input type="number" id="ant-B2" class="ant-input comp2-inp" value="1730.630" step="0.1" />
+            <label>C₂</label><input type="number" id="ant-C2" class="ant-input comp2-inp" value="233.426" step="0.1" />
+          </div>
+        </div>
+        <p class="params-note" style="margin-top:6px">P en mmHg, T en °C — Perry's Chemical Engineers' Handbook</p>
+      </details>
+
+      <div class="divider"></div>
+
+      <!-- Point probe -->
+      <div class="control-group">
+        <p class="clabel">🔍 Inspeccionar Punto</p>
+        <div class="slider-item">
+          <label for="probe-x" class="slider-label comp1-text">x₁</label>
+          <input type="range" id="probe-x" min="0.001" max="0.999" step="0.001" value="0.5" class="slider s1" />
+          <span class="slider-val" id="probe-x-val">0.500</span>
+        </div>
+        <div class="probe-results glass-mini" id="probe-results">
+          <div class="probe-row"><span>γ₁</span><span id="pr-g1">—</span></div>
+          <div class="probe-row"><span>γ₂</span><span id="pr-g2">—</span></div>
+          <div class="probe-row"><span>y₁</span><span id="pr-y1">—</span></div>
+          <div class="probe-row"><span>y₂</span><span id="pr-y2">—</span></div>
+          <div class="probe-row"><span>G<sup>E</sup>/RT</span><span id="pr-ge">—</span></div>
+          <div class="probe-row"><span>α₁₂</span><span id="pr-alpha">—</span></div>
+        </div>
+      </div>
+
+      <!-- Azeotrope indicator -->
+      <div class="azeotrope-box glass-mini" id="azeotrope-box">
+        <div class="azeo-icon" id="azeo-icon">🔍</div>
+        <div>
+          <p class="azeo-title" id="azeo-title">Analizando azeótropo…</p>
+          <p class="azeo-val" id="azeo-val"></p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT: Plots -->
+    <div class="plots-area">
+
+      <!-- VLE Diagram -->
+      <div class="plot-card glass-card">
+        <div class="plot-header">
+          <h2 class="plot-title" id="vle-title">📊 Diagrama P-xy</h2>
+          <div class="legend-row">
+            <span class="legend-item"><span class="legend-dot d1"></span>Curva de burbuja x₁</span>
+            <span class="legend-item"><span class="legend-dot d2"></span>Curva de rocío y₁</span>
+            <span class="legend-item"><span class="legend-dot d3"></span>Ley de Raoult ideal</span>
+          </div>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="vleCanvas" width="580" height="380" aria-label="Diagrama de equilibrio vapor-líquido"></canvas>
+          <div class="probe-crosshair" id="probe-cross" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <!-- Activity coefficients + GE -->
+      <div class="two-plots">
+        <div class="plot-card glass-card">
+          <div class="plot-header">
+            <h2 class="plot-title">⚡ Coeficientes de Actividad γᵢ</h2>
+          </div>
+          <div class="canvas-wrap">
+            <canvas id="gammaCanvas" width="280" height="230" aria-label="Coeficientes de actividad"></canvas>
+          </div>
+        </div>
+        <div class="plot-card glass-card">
+          <div class="plot-header">
+            <h2 class="plot-title">🧬 G<sup>E</sup>/RT · Energía en Exceso</h2>
+          </div>
+          <div class="canvas-wrap">
+            <canvas id="geCanvas" width="280" height="230" aria-label="Energía libre de Gibbs en exceso"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metrics row -->
+      <div class="metrics-row">
+        <div class="metric-card glass-card">
+          <div class="met-icon">⚗️</div>
+          <div class="met-body">
+            <p class="met-label">γ₁ (x₁ probe)</p>
+            <p class="met-val comp1-text" id="met-g1">—</p>
+          </div>
+        </div>
+        <div class="metric-card glass-card">
+          <div class="met-icon">⚗️</div>
+          <div class="met-body">
+            <p class="met-label">γ₂ (x₁ probe)</p>
+            <p class="met-val comp2-text" id="met-g2">—</p>
+          </div>
+        </div>
+        <div class="metric-card glass-card">
+          <div class="met-icon">🧪</div>
+          <div class="met-body">
+            <p class="met-label">G<sup>E</sup>/RT máx.</p>
+            <p class="met-val" id="met-ge-max">—</p>
+          </div>
+        </div>
+        <div class="metric-card glass-card">
+          <div class="met-icon">🌡️</div>
+          <div class="met-body">
+            <p class="met-label">Pˢᵃᵗ comp.1 / comp.2</p>
+            <p class="met-val" id="met-psat">—</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ══ SCIENCE GUIDE ══ -->
+  <section class="guide-section" aria-label="Guía científica">
+    <div class="glass-card guide-card">
+      <h2 class="section-title">🔬 Guía Científica del Modelo Wilson</h2>
+      <div class="guide-grid">
+        <div class="guide-item">
+          <span class="guide-icon">✅</span>
+          <div>
+            <strong>Ventajas del Modelo</strong>
+            <p>Excelente para mezclas polares y asociadas (alcoholes, agua, cetonas). Solo requiere 2 parámetros por par binario. Predice con precisión desviaciones positivas y negativas de Raoult.</p>
+          </div>
+        </div>
+        <div class="guide-item">
+          <span class="guide-icon">⚠️</span>
+          <div>
+            <strong>Limitaciones</strong>
+            <p>No puede predecir separación de fases líquido-líquido (inmiscibilidad). Para sistemas con dos fases líquidas, usar NRTL o UNIQUAC. Los parámetros Λᵢⱼ dependen de la temperatura.</p>
+          </div>
+        </div>
+        <div class="guide-item">
+          <span class="guide-icon">📊</span>
+          <div>
+            <strong>Azeótropos</strong>
+            <p>Ocurren cuando γᵢxᵢPᵢˢᵃᵗ = P para todos i, es decir yᵢ = xᵢ. Indican desviaciones pronunciadas de idealidad. El etanol-agua forma un azeótropo a ~95.6% mol etanol, 78.1°C.</p>
+          </div>
+        </div>
+        <div class="guide-item">
+          <span class="guide-icon">🏭</span>
+          <div>
+            <strong>Aplicaciones Industriales</strong>
+            <p>Diseño de columnas de destilación, simulación de procesos (Aspen, HYSYS), separación de mezclas azeotrópicas, purificación de biocombustibles y solventes farmacéuticos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="footer">
+    <div class="footer-molecule" aria-hidden="true">
+      <div class="fm-atom fa1"></div>
+      <div class="fm-bond fb1"></div>
+      <div class="fm-atom fa2"></div>
+      <div class="fm-bond fb2"></div>
+      <div class="fm-atom fa3"></div>
+    </div>
+    <p>📚 <em>Wilson, G.M. (1964). J. Am. Chem. Soc., 86(2), 127–130.</em></p>
+    <p class="footer-sub">Ecuación de Antoine: Perry's Chemical Engineers' Handbook, 8th Ed.</p>
+    <p class="footer-sub">Parámetros VLE: DECHEMA Chemistry Data Series · Gmehling et al.</p>
+
+  </footer>
+
+  <script src="wilson.js"></script>
+</body>
+</html>
